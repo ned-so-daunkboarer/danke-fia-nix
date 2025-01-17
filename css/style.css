@@ -1,0 +1,235 @@
+:root {
+    --color-primary: #2563eb;
+    --color-secondary: #3b82f6;
+    --color-accent: #60a5fa;
+    --color-background: #f8fafc;
+    --color-text: #1e293b;
+    --color-text-light: #475569;
+    --color-timeline: #3b82f6;
+    --color-card: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--color-text);
+    background-color: var(--color-background);
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--color-card);
+    margin-bottom: 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: var(--color-primary);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 20px;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--color-text);
+    font-weight: 800;
+}
+
+.header p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--color-text-light);
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50px;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(180deg, 
+        rgba(59, 130, 246, 0) 0%,
+        rgba(59, 130, 246, 1) 100px,
+        rgba(59, 130, 246, 1) calc(100% - 100px),
+        rgba(59, 130, 246, 0) 100%
+    );
+}
+
+@media (max-width: 768px) {
+    .nav-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .timeline::before {
+        left: 30px;
+    }
+}
+
+.timeline-item {
+    display: flex;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-dot {
+    width: 20px;
+    height: 20px;
+    background: var(--color-card);
+    border: 3px solid var(--color-timeline);
+    border-radius: 50%;
+    margin-left: 42px;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .timeline-dot {
+        margin-left: 22px;
+    }
+}
+
+.timeline-content {
+    background: var(--color-card);
+    padding: 20px;
+    border-radius: 8px;
+    margin-left: 20px;
+    flex-grow: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-date {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--color-primary);
+}
+
+.timeline-title {
+    color: var(--color-text);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.timeline-text {
+    color: var(--color-text-light);
+    margin-bottom: 15px;
+}
+
+.timeline-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.timeline-details.expanded {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+}
+
+.timeline-details-content {
+    padding: 15px;
+    color: var(--color-text);
+}
+
+.expand-button {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.expand-button:hover {
+    background: var(--color-secondary);
+}
+
+#loading {
+    text-align: center;
+    padding: 20px;
+    display: none;
+    color: var(--color-text-light);
+}
+
+.loading-visible {
+    display: block !important;
+}
+
+.footer {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 50px;
+    background: var(--color-card);
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    color: var(--color-text-light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.footer.visible {
+    opacity: 1;
+}
