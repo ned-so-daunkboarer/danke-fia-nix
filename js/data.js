@@ -1,3 +1,11 @@
+/*
+Text formatting: <strong>, <em>, <u>, <mark>, etc.
+Structure: <br>, <p>, <div>, etc.
+Lists: <ul>, <ol>, <li>
+Tables: <table>, <tr>, <td>
+Custom styling with <span style="...">
+*/
+
 const politicData = [
     {
         date: "<strong>Jan 2025</strong>",
@@ -9,7 +17,7 @@ const politicData = [
         date: "<strong>Jan 2025</strong>",
         title: "Scheißblatt",
         description: "Scheißblatt <em>blede aussog</em>",
-        details: "Mei meinung dazua"
+        details: "<strong>Zusammenfassung:</strong> Der FPÖ-Politiker Dominik Nepp hat nach kritischer Berichterstattung des STANDARD über einen FPÖ-Stammtisch den STANDARD als \"Scheißblatt\" bezeichnet und mit der Streichung der Presseförderung gedroht, wobei diese künftig nur noch an \"echte Qualitätsmedien\" gehen solle. Bei dem berichteten Stammtisch hatten FPÖ-Nationalratsabgeordnete abfällig über die ÖVP, die EU und Flüchtlinge gesprochen und den Taliban Respekt gezollt, was durch Videoaufnahmen französischer Journalisten dokumentiert wurde. Der Autor Michael Völker warnt, dass die Drohungen der FPÖ gegen kritische Medien autoritäre Tendenzen zeigen und eine Gefahr für die Demokratie darstellen, weshalb besonders die ÖVP als potenzieller Koalitionspartner hier wachsam sein müsse. <br/>"
     }
 ];
 
@@ -30,7 +38,7 @@ function createTimelineItem(data) {
             <div class="timeline-date">${data.date}</div>
             <h3 class="timeline-title">${data.title}</h3>
             <p class="timeline-text">${data.description}</p>
-            <button class="expand-button" onclick="toggleDetails(this)">Show Details</button>
+            <button class="expand-button" onclick="toggleDetails(this)">Details anzeigen</button>
             <div class="timeline-details">
                 <div class="timeline-details-content">
                     ${data.details}
@@ -48,10 +56,10 @@ function toggleDetails(button) {
     
     if (isExpanded) {
         details.classList.remove('expanded');
-        button.textContent = 'Show Details';
+        button.textContent = 'Details anzeigen';
     } else {
         details.classList.add('expanded');
-        button.textContent = 'Hide Details';
+        button.textContent = 'Details verstecken';
     }
 }
 
@@ -92,7 +100,7 @@ function loadMoreItems() {
 
         // Check if we should load more
         checkScroll();
-    }, 1000); // Simulate loading delay
+    }, 50); // Simulate loading delay
 }
 
 function checkScroll() {
