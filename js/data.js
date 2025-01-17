@@ -307,3 +307,5 @@ function checkScroll() {
         loadMoreItems();
     }
 }
+
+loadMoreItems();
