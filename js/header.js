@@ -4,6 +4,7 @@ let appHeader = `
     <div class="nav-links">
         <a href="./about.html">Über Mich</a>
         <a href="./contact.html">Kontakt</a>
+        <a href="./more-stuff.html">Anhang</a>
     </div>
     </nav>
 `;

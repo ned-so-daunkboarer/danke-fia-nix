@@ -1,4 +1,4 @@
-const presidentsData = [
+const politicData = [
     {
         date: "<strong>Jan 2025</strong>",
         title: "Einsparmaßnahmen",
@@ -56,7 +56,7 @@ function toggleDetails(button) {
 }
 
 function loadMoreItems() {
-    if (isLoading || currentIndex >= presidentsData.length) return;
+    if (isLoading || currentIndex >= politicData.length) return;
     
     isLoading = true;
     loadingElement.classList.add('loading-visible');
@@ -64,8 +64,8 @@ function loadMoreItems() {
     setTimeout(() => {
         const fragment = document.createDocumentFragment();
         
-        for (let i = 0; i < itemsPerLoad && currentIndex < presidentsData.length; i++) {
-            const item = createTimelineItem(presidentsData[currentIndex]);
+        for (let i = 0; i < itemsPerLoad && currentIndex < politicData.length; i++) {
+            const item = createTimelineItem(politicData[currentIndex]);
             fragment.appendChild(item);
             currentIndex++;
         }
@@ -82,7 +82,7 @@ function loadMoreItems() {
         loadingElement.classList.remove('loading-visible');
 
         // Check if we've reached the end
-        if (currentIndex >= presidentsData.length) {
+        if (currentIndex >= politicData.length) {
             loadingElement.style.display = 'none';
             footerElement.style.display = 'block';
             setTimeout(() => {
