@@ -307,5 +307,3 @@ function checkScroll() {
         loadMoreItems();
     }
 }
-
-document.head.appendChild(style);
