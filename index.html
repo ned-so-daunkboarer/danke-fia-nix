@@ -17,6 +17,27 @@
             padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .header p {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #666;
         }
 
         .timeline {
@@ -26,12 +47,17 @@
 
         .timeline::before {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 50px;
             height: 100%;
             width: 4px;
-            background: #333;
+            background: linear-gradient(180deg, 
+                rgba(51,51,51,0) 0%,
+                rgba(51,51,51,1) 100px,
+                rgba(51,51,51,1) calc(100% - 100px),
+                rgba(51,51,51,0) 100%
+            );
         }
 
         @media (max-width: 768px) {
@@ -85,8 +111,46 @@
             color: #333;
         }
 
+        .timeline-title {
+            margin-bottom: 10px;
+        }
+
         .timeline-text {
             color: #666;
+            margin-bottom: 15px;
+        }
+
+        .timeline-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #fff;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .timeline-details.expanded {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .timeline-details-content {
+            padding: 15px;
+        }
+
+        .expand-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .expand-button:hover {
+            background: #555;
         }
 
         #loading {
@@ -98,57 +162,77 @@
         .loading-visible {
             display: block !important;
         }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .footer.visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
+    <header class="header">
+        <h1>United States Presidents Timeline</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p style="margin-top: 20px">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </header>
+
     <div class="timeline" id="timeline"></div>
     <div id="loading">Loading more events...</div>
+    
+    <footer class="footer" id="timeline-footer" style="display: none;">
+        <h2>End of Timeline</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+    </footer>
 
     <script>
-        // Sample data for US Presidents
+        // Sample data for US Presidents with HTML formatting
         const presidentsData = [
             {
-                date: "2021-2025",
+                date: "<strong>2021-2025</strong>",
                 title: "Joe Biden",
-                description: "46th President of the United States"
+                description: "46th <em>President of the United States</em>",
+                details: "Joe Biden served as the <strong>47th Vice President</strong> during the Obama administration from 2009 to 2017.<br><br>His presidency focused on three main areas:<ul><li>Handling the COVID-19 pandemic</li><li>Climate change initiatives</li><li>Infrastructure development</li></ul>"
             },
             {
-                date: "2017-2021",
+                date: "<strong>2017-2021</strong>",
                 title: "Donald Trump",
-                description: "45th President of the United States"
+                description: "45th <em>President of the United States</em>",
+                details: "Donald Trump was a businessman and television personality before becoming president.<br><br>Key aspects of his presidency:<ul><li>Significant tax cuts</li><li>Immigration policy changes</li><li>COVID-19 pandemic response</li></ul>"
             },
             {
-                date: "2009-2017",
+                date: "<strong>2009-2017</strong>",
                 title: "Barack Obama",
-                description: "44th President of the United States"
+                description: "44th <em>President of the United States</em>",
+                details: "Barack Obama was the <strong>first African American president</strong>.<br><br>Notable achievements:<ul><li>Affordable Care Act</li><li>Economic recovery</li><li>Paris Climate Agreement</li></ul>"
             },
             {
-                date: "2001-2009",
+                date: "<strong>2001-2009</strong>",
                 title: "George W. Bush",
-                description: "43rd President of the United States"
+                description: "43rd <em>President of the United States</em>",
+                details: "George W. Bush's presidency was largely defined by the <strong>September 11, 2001</strong> terrorist attacks.<br><br>Key policies:<ul><li>War on Terror</li><li>Department of Homeland Security</li><li>No Child Left Behind Act</li></ul>"
             },
             {
-                date: "1993-2001",
+                date: "<strong>1993-2001</strong>",
                 title: "Bill Clinton",
-                description: "42nd President of the United States"
-            },
-            {
-                date: "1989-1993",
-                title: "George H. W. Bush",
-                description: "41st President of the United States"
-            },
-            {
-                date: "1981-1989",
-                title: "Ronald Reagan",
-                description: "40th President of the United States"
-            },
-            // Add more presidents as needed
+                description: "42nd <em>President of the United States</em>",
+                details: "Bill Clinton's presidency was marked by <strong>economic prosperity</strong>.<br><br>Major achievements:<ul><li>Budget surplus</li><li>NAFTA implementation</li><li>Welfare reform</li></ul>"
+            }
         ];
 
         let currentIndex = 0;
         const itemsPerLoad = 3;
         const timeline = document.getElementById('timeline');
         const loadingElement = document.getElementById('loading');
+        const footerElement = document.getElementById('timeline-footer');
         let isLoading = false;
 
         function createTimelineItem(data) {
@@ -159,12 +243,31 @@
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
                     <div class="timeline-date">${data.date}</div>
-                    <h3>${data.title}</h3>
+                    <h3 class="timeline-title">${data.title}</h3>
                     <p class="timeline-text">${data.description}</p>
+                    <button class="expand-button" onclick="toggleDetails(this)">Show Details</button>
+                    <div class="timeline-details">
+                        <div class="timeline-details-content">
+                            ${data.details}
+                        </div>
+                    </div>
                 </div>
             `;
             
             return item;
+        }
+
+        function toggleDetails(button) {
+            const details = button.nextElementSibling;
+            const isExpanded = details.classList.contains('expanded');
+            
+            if (isExpanded) {
+                details.classList.remove('expanded');
+                button.textContent = 'Show Details';
+            } else {
+                details.classList.add('expanded');
+                button.textContent = 'Hide Details';
+            }
         }
 
         function loadMoreItems() {
@@ -192,6 +295,15 @@
 
                 isLoading = false;
                 loadingElement.classList.remove('loading-visible');
+
+                // Check if we've reached the end
+                if (currentIndex >= presidentsData.length) {
+                    loadingElement.style.display = 'none';
+                    footerElement.style.display = 'block';
+                    setTimeout(() => {
+                        footerElement.classList.add('visible');
+                    }, 100);
+                }
 
                 // Check if we should load more
                 checkScroll();
