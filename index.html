@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presidential Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 50px;
+            height: 100%;
+            width: 4px;
+            background: #333;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 4px solid #333;
+            border-radius: 50%;
+            margin-left: 42px;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-dot {
+                margin-left: 22px;
+            }
+        }
+
+        .timeline-content {
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            margin-left: 20px;
+            flex-grow: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-date {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .timeline-text {
+            color: #666;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading-visible {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline" id="timeline"></div>
+    <div id="loading">Loading more events...</div>
+
+    <script>
+        // Sample data for US Presidents
+        const presidentsData = [
+            {
+                date: "2021-2025",
+                title: "Joe Biden",
+                description: "46th President of the United States"
+            },
+            {
+                date: "2017-2021",
+                title: "Donald Trump",
+                description: "45th President of the United States"
+            },
+            {
+                date: "2009-2017",
+                title: "Barack Obama",
+                description: "44th President of the United States"
+            },
+            {
+                date: "2001-2009",
+                title: "George W. Bush",
+                description: "43rd President of the United States"
+            },
+            {
+                date: "1993-2001",
+                title: "Bill Clinton",
+                description: "42nd President of the United States"
+            },
+            {
+                date: "1989-1993",
+                title: "George H. W. Bush",
+                description: "41st President of the United States"
+            },
+            {
+                date: "1981-1989",
+                title: "Ronald Reagan",
+                description: "40th President of the United States"
+            },
+            // Add more presidents as needed
+        ];
+
+        let currentIndex = 0;
+        const itemsPerLoad = 3;
+        const timeline = document.getElementById('timeline');
+        const loadingElement = document.getElementById('loading');
+        let isLoading = false;
+
+        function createTimelineItem(data) {
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            
+            item.innerHTML = `
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">${data.date}</div>
+                    <h3>${data.title}</h3>
+                    <p class="timeline-text">${data.description}</p>
+                </div>
+            `;
+            
+            return item;
+        }
+
+        function loadMoreItems() {
+            if (isLoading || currentIndex >= presidentsData.length) return;
+            
+            isLoading = true;
+            loadingElement.classList.add('loading-visible');
+
+            setTimeout(() => {
+                const fragment = document.createDocumentFragment();
+                
+                for (let i = 0; i < itemsPerLoad && currentIndex < presidentsData.length; i++) {
+                    const item = createTimelineItem(presidentsData[currentIndex]);
+                    fragment.appendChild(item);
+                    currentIndex++;
+                }
+
+                timeline.appendChild(fragment);
+
+                // Trigger animation for new items
+                setTimeout(() => {
+                    const newItems = timeline.querySelectorAll('.timeline-item:not(.visible)');
+                    newItems.forEach(item => item.classList.add('visible'));
+                }, 100);
+
+                isLoading = false;
+                loadingElement.classList.remove('loading-visible');
+
+                // Check if we should load more
+                checkScroll();
+            }, 1000); // Simulate loading delay
+        }
+
+        function checkScroll() {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const timelineBottom = timeline.offsetTop + timeline.offsetHeight;
+
+            if (scrollPosition >= timelineBottom - 500) {
+                loadMoreItems();
+            }
+        }
+
+        // Initial load
+        loadMoreItems();
+
+        // Event listeners
+        window.addEventListener('scroll', checkScroll);
+        window.addEventListener('resize', checkScroll);
+    </script>
+</body>
+</html>
